@@ -49,7 +49,7 @@ namespace DragonSpeak.NET.Lexical
                             break;
 
                         case TokenType.Array:
-                            currentTrigger.Contents.Add(token.Value.Substring(1, token.Value.Length - 2).Split(',').Select(x => double.Parse(x)).ToArray());
+                            currentTrigger.Contents.Add(token.Value.Substring(1, token.Value.Length - 2).Split(',').Select(x => double.Parse(x.Trim())).ToArray());
                             break;
 
                         case TokenType.String:

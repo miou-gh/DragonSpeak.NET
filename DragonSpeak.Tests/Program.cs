@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using DragonSpeak.NET;
 using NUnit.Framework;
@@ -64,6 +65,12 @@ namespace DragonSpeak.Tests
             // Retrieve Double Number In Trigger
             @"
             (0:1) When an event occours at map 48.5,
+                 (5:1) an action takes place.
+            ",
+
+            // Retrieve Array In Trigger
+            @"
+            (0:1) When an event contains [10, 25, 80, 92],
                  (5:1) an action takes place.
             ",
         };
@@ -315,6 +322,35 @@ namespace DragonSpeak.Tests
                 causeResult = true;
 
                 if (trigger.Get<double>(0) == input) {
+                    retrieveResult = true;
+                }
+
+                return true;
+            });
+
+            page.SetTriggerHandler(new Trigger(TriggerCategory.Effect, 1), (ctx, trigger) => {
+                effectResult = true;
+
+                return true;
+            });
+
+            page.Execute(ids: 1);
+            Assert.That(causeResult && effectResult && retrieveResult, Is.True.After(5000, 5));
+        }
+
+        [Test]
+        public void RetrieveArrayInTrigger()
+        {
+            var page = Engine.LoadFromString(TestScripts[8]);
+            var input = new double[] { 10, 25, 80, 92 };
+            bool causeResult = false,
+                 effectResult = false,
+                 retrieveResult = false;
+
+            page.SetTriggerHandler(new Trigger(TriggerCategory.Cause, 1), (ctx, trigger) => {
+                causeResult = true;
+
+                if (trigger.Get<double[]>(0).All(x => input.Contains(x))) {
                     retrieveResult = true;
                 }
 
