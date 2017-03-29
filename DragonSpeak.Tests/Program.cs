@@ -474,5 +474,18 @@ namespace DragonSpeak.Tests
             page.Execute(ids: 1);
             Assert.That(causeResults == 1000 && effectResults == 1000);
         }
+
+        [Test]
+        public void CauseTriggerDiscoveryHandlerExecution()
+        {
+            var triggerDiscovered = false;
+
+            var page = Engine.LoadFromString(TestScripts[0],
+                         (sender, trigger) => {
+                             triggerDiscovered = true;
+                         });
+
+            Assert.That(triggerDiscovered, Is.True.After(5000, 5));
+        }
     }
 }

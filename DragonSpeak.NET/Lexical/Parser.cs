@@ -45,7 +45,7 @@ namespace DragonSpeak.NET.Lexical
                             var id = token.Value.Substring(token.Value.IndexOf(':') + 1);
                                 id = id.Substring(0, id.Length - 1);
 
-                            currentTrigger = new Trigger(category, int.Parse(id));
+                            currentTrigger = new Trigger(category, int.Parse(id)) { Position = token.Position };
                             break;
 
                         case TokenType.Array:

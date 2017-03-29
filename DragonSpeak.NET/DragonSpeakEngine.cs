@@ -6,6 +6,7 @@ namespace DragonSpeak.NET
 {
     using Lexical;
     using Enums;
+    using DragonSpeak.NET.Delegates;
 
     public class DragonSpeakEngine
     {
@@ -34,10 +35,11 @@ namespace DragonSpeak.NET
             this.Pages = new List<Page>();
         }
 
-        public Page LoadFromString(string pageSource)
+        public Page LoadFromString(string pageSource,
+            CauseTriggerDiscoveryHandler causeDicoveryHandler = null)
         {
             var blocks = this.Parser.Parse(pageSource);
-            var page = new Page(this).Insert(blocks);
+            var page = new Page(this, causeDicoveryHandler).Insert(blocks);
 
             this.Pages.Add(page);
             return this.Pages.Last();

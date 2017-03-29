@@ -1,6 +1,6 @@
 ﻿namespace DragonSpeak.NET.Lexical
 {
-    internal class TokenPosition
+    public class TokenPosition
     {
         public int Index { get; private set; }
         public int Line { get; private set; }

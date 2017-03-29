@@ -4,10 +4,13 @@ using System.Linq;
 
 namespace DragonSpeak.NET
 {
+    using Lexical;
     using Error;
 
     public class Trigger : IEquatable<Trigger>
     {
+        public TokenPosition Position { get; set; }
+
         /// <summary> The category in which the trigger resides. </summary>
         public TriggerCategory Category { get; set; } = TriggerCategory.Undefined;
 

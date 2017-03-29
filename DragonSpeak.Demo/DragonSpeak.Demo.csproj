@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C5D85ABE-64F5-4168-9639-82FFB92A5A83}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>DragonSpeak.NET</RootNamespace>
-    <AssemblyName>DragonSpeak.NET</AssemblyName>
+    <ProjectGuid>{DC7D0D0B-023A-44CD-9A66-3C8DADFC90E2}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>DragonSpeak.Demo</RootNamespace>
+    <AssemblyName>DragonSpeak.Demo</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,9 +31,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,27 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Delegates\CauseTriggerDiscoveryHandler.cs" />
-    <Compile Include="DragonSpeakEngine.cs" />
-    <Compile Include="Enums\TokenCategory.cs" />
-    <Compile Include="Enums\TokenType.cs" />
-    <Compile Include="Error\DragonSpeakException.cs" />
-    <Compile Include="Delegates\TriggerHandler.cs" />
-    <Compile Include="Interfaces\IContext.cs" />
-    <Compile Include="Interfaces\ILexer.cs" />
-    <Compile Include="Lexical\Lexer.cs" />
-    <Compile Include="Lexical\Parser.cs" />
-    <Compile Include="Lexical\Token.cs" />
-    <Compile Include="Lexical\TokenDefinition.cs" />
-    <Compile Include="Lexical\TokenPosition.cs" />
-    <Compile Include="Lexical\TriggerBlock.cs" />
-    <Compile Include="Page.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Trigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DragonSpeak.NET\DragonSpeak.NET.csproj">
+      <Project>{c5d85abe-64f5-4168-9639-82ffb92a5a83}</Project>
+      <Name>DragonSpeak.NET</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

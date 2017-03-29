@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonSpeak.NET", "DragonSp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonSpeak.Tests", "DragonSpeak.Tests\DragonSpeak.Tests.csproj", "{113A168D-225B-4959-848A-45C2AB6FAE08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonSpeak.Demo", "DragonSpeak.Demo\DragonSpeak.Demo.csproj", "{DC7D0D0B-023A-44CD-9A66-3C8DADFC90E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{113A168D-225B-4959-848A-45C2AB6FAE08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{113A168D-225B-4959-848A-45C2AB6FAE08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{113A168D-225B-4959-848A-45C2AB6FAE08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC7D0D0B-023A-44CD-9A66-3C8DADFC90E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC7D0D0B-023A-44CD-9A66-3C8DADFC90E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC7D0D0B-023A-44CD-9A66-3C8DADFC90E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC7D0D0B-023A-44CD-9A66-3C8DADFC90E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

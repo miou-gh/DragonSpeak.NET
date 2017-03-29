@@ -3,22 +3,28 @@ using System.Linq;
 
 namespace DragonSpeak.NET
 {
-    using Error;
     using Lexical;
+    using Delegates;
+    using Error;
 
     public class Page
     {
         private List<TriggerBlock> TriggerBlocks { get; set; }
-        private Dictionary<Trigger, TriggerHandler> Handlers { get; set; }
 
         public DragonSpeakEngine Engine { get; private set; }
 
-        public Page(DragonSpeakEngine engine)
+        private CauseTriggerDiscoveryHandler OnCauseTriggerDiscovered { get; set; }
+
+        private Dictionary<Trigger, TriggerHandler> Handlers { get; set; }
+
+        public Page(DragonSpeakEngine engine, CauseTriggerDiscoveryHandler causeDiscoveryHandler)
         {
+            this.Engine = engine;
+
             this.TriggerBlocks = new List<TriggerBlock>();
             this.Handlers = new Dictionary<Trigger, TriggerHandler>();
 
-            this.Engine = engine;
+            this.OnCauseTriggerDiscovered = causeDiscoveryHandler;
         }
 
         /// <summary> Assigns the specified <see cref="TriggerHandler"/> to the <paramref name="trigger"/>. </summary>
@@ -59,14 +65,28 @@ namespace DragonSpeak.NET
 
         internal Page Insert(IEnumerable<TriggerBlock> triggerBlocks)
         {
-            this.TriggerBlocks.AddRange(triggerBlocks);
+            foreach (var triggerBlock in triggerBlocks) {
+                var initialTrigger = triggerBlock[0];
+
+                switch (initialTrigger.Category) {
+                    case TriggerCategory.Cause:
+                        this.TriggerBlocks.Add(triggerBlock);
+                        this.OnCauseTriggerDiscovered?.Invoke(this, initialTrigger);
+                        break;
+                    default:
+                        throw new DragonSpeakException(
+                         string.Concat("A paragraph may only start with a 'cause' trigger.\n",
+                         $"'({ (int)initialTrigger.Category }:{ initialTrigger.Id })' at index { initialTrigger.Position.Index }",
+                         $" (line { initialTrigger.Position.Line}, column { initialTrigger.Position.Column})."));
+                }
+            }
 
             return this;
         }
 
         internal Page Insert(params TriggerBlock[] triggerBlocks)
         {
-            this.TriggerBlocks.AddRange(triggerBlocks);
+            Insert((IEnumerable<TriggerBlock>)triggerBlocks);
 
             return this;
         }
