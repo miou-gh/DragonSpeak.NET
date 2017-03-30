@@ -13,9 +13,9 @@ namespace DragonSpeak.NET
 
         public DragonSpeakEngine Engine { get; private set; }
 
-        private CauseTriggerDiscoveryHandler OnCauseTriggerDiscovered { get; set; }
-
         private Dictionary<Trigger, TriggerHandler> Handlers { get; set; }
+
+        private CauseTriggerDiscoveryHandler OnCauseTriggerDiscovered { get; set; }
 
         public Page(DragonSpeakEngine engine, CauseTriggerDiscoveryHandler causeDiscoveryHandler)
         {
@@ -80,13 +80,6 @@ namespace DragonSpeak.NET
                          $" (line { initialTrigger.Position.Line}, column { initialTrigger.Position.Column})."));
                 }
             }
-
-            return this;
-        }
-
-        internal Page Insert(params TriggerBlock[] triggerBlocks)
-        {
-            Insert((IEnumerable<TriggerBlock>)triggerBlocks);
 
             return this;
         }

@@ -58,6 +58,7 @@ namespace DragonSpeak.NET.Lexical
                         case TokenType.Number:
                             currentTrigger.Contents.Add(double.Parse(token.Value, NumberStyles.AllowDecimalPoint));
                             break;
+
                         case TokenType.EOF:
                             if (currentTrigger != null) {
                                 if (currentTrigger.Category != TriggerCategory.Undefined) {

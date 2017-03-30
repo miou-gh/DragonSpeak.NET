@@ -35,6 +35,13 @@ namespace DragonSpeak.NET
             this.Pages = new List<Page>();
         }
 
+        /// <summary> Load a DragonSpeak script from the specified source. </summary>
+        /// <param name="pageSource"> The script to load. </param>
+        /// <param name="causeDicoveryHandler">
+        /// A delegate which is invoked whenever a <see cref="TriggerCategory.Cause"/> trigger is
+        /// found during parsing.
+        /// </param>
+        /// <returns> A page containing triggers to execute. </returns>
         public Page LoadFromString(string pageSource,
             CauseTriggerDiscoveryHandler causeDicoveryHandler = null)
         {

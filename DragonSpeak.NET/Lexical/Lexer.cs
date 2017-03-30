@@ -3,10 +3,11 @@ using System.Text.RegularExpressions;
 
 namespace DragonSpeak.NET.Lexical
 {
+    using Interfaces;
     using Enums;
     using Error;
 
-    internal class Lexer
+    internal class Lexer : ILexer
     {
         public TokenDefinition[] TokenDefinitions { get; set; }
         public Regex TerminationPattern = new Regex(@"\r\n|\r|\n", RegexOptions.Compiled);
@@ -58,6 +59,5 @@ namespace DragonSpeak.NET.Lexical
 
             yield return new Token(TokenType.EOF, null, new TokenPosition(currentIndex, currentLine, currentColumn));
         }
-
     }
 }

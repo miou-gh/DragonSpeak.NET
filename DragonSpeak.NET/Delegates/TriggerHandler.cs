@@ -1,6 +1,5 @@
 ﻿namespace DragonSpeak.NET
 {
-
     /// <returns>
     ///  If true, continue to the next <see cref="Trigger"/> in the paragraph.
     ///  If false, terminate the execution of the current paragraph.
