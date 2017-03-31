@@ -22,7 +22,7 @@ namespace DragonSpeak.NET
             this.Options = options ?? new DragonSpeakOptions();
 
             this.Lexer = new Lexer(
-                new TokenDefinition(TokenType.Trigger,    new Regex(@"\([0-9]{1}\:[0-9]{1," + int.MaxValue + @"}\)"                                                          , RegexOptions.Compiled)),
+                new TokenDefinition(TokenType.Trigger,    new Regex(@"\(([0-9]{1})\:([0-9]{1," + int.MaxValue + @"})\)"                                                      , RegexOptions.Compiled)),
                 new TokenDefinition(TokenType.String,     new Regex(@"\" + this.Options.StringBeginSymbol + @"(.*?)\" + this.Options.StringEndSymbol                         , RegexOptions.Compiled)),
                 new TokenDefinition(TokenType.Array,      new Regex(@"(?:\" + this.Options.ArrayBeginSymbol + @"((.*?)(?:,(.+?))*)\" + this.Options.ArrayEndSymbol + @")+"   , RegexOptions.Compiled)),
                 new TokenDefinition(TokenType.Number,     new Regex(@"[-+]?([0-9]*\.[0-9]+|[0-9]+)"                                                                          , RegexOptions.Compiled)),

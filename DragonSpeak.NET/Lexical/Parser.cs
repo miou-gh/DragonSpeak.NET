@@ -21,6 +21,7 @@ namespace DragonSpeak.NET.Lexical
                     previousTrigger = null;
 
             var currentTriggerBlock = new TriggerBlock();
+            var triggerTokenPattern = this.Lexer.TokenDefinitions.FirstOrDefault(x => x.Type == TokenType.Trigger);
 
             using (var iterator = this.Lexer.Tokenize(pageSource).GetEnumerator()) {
                 while (iterator.MoveNext()) {
@@ -41,11 +42,12 @@ namespace DragonSpeak.NET.Lexical
                                 previousTrigger = currentTrigger;
                             }
 
-                            var category = (TriggerCategory)int.Parse(token.Value.Substring(1, token.Value.IndexOf(':') - 1));
-                            var id = token.Value.Substring(token.Value.IndexOf(':') + 1);
-                                id = id.Substring(0, id.Length - 1);
+                            var tokenPatternMatch = triggerTokenPattern.Pattern.Match(token.Value);
 
-                            currentTrigger = new Trigger(category, int.Parse(id)) { Position = token.Position };
+                            var category = (TriggerCategory)int.Parse(tokenPatternMatch.Groups[1].Value);
+                            var id = int.Parse(tokenPatternMatch.Groups[2].Value);
+
+                            currentTrigger = new Trigger(category, id) { Position = token.Position };
                             break;
 
                         case TokenType.Array:
@@ -63,6 +65,7 @@ namespace DragonSpeak.NET.Lexical
                             if (currentTrigger != null) {
                                 if (currentTrigger.Category != TriggerCategory.Undefined) {
                                     currentTriggerBlock.Add(currentTrigger);
+
                                     yield return currentTriggerBlock;
                                 }
                             }

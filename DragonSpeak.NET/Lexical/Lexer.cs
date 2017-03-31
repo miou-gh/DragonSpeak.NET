@@ -6,6 +6,7 @@ namespace DragonSpeak.NET.Lexical
     using Interfaces;
     using Enums;
     using Error;
+    using System.Linq;
 
     internal class Lexer : ILexer
     {
@@ -32,22 +33,16 @@ namespace DragonSpeak.NET.Lexical
                     if (match.Success && (match.Index - currentIndex) == 0) {
                         foundPattern = true;
                         
-                        var value = match.Value;
-
                         if (!definition.Ignored) {
-                            yield return new Token(definition.Type, value, new TokenPosition(currentIndex, currentLine, currentColumn));
+                            yield return new Token(definition.Type, match.Value, new TokenPosition(currentIndex, currentLine, currentColumn));
                         }
 
-                        var terminator = TerminationPattern.Match(value);
-
-                        if (terminator.Success) {
-                            currentLine += 1;
-                            currentColumn = value.Length - (terminator.Index + terminator.Length);
-                        } else {
-                            currentColumn += match.Length;
-                        }
+                        var terminator = TerminationPattern.Match(match.Value);
 
                         currentIndex += match.Length;
+                        currentLine += terminator.Success ? 1 : 0;
+                        currentColumn = terminator.Success ? match.Value.Length - (terminator.Index + terminator.Length) : currentColumn + match.Length;
+
                         break;
                     }
                 }
