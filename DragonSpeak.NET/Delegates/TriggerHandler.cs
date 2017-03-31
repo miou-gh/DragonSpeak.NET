@@ -5,6 +5,6 @@
     ///  If false, terminate the execution of the current paragraph.
     /// </returns>
     /// <param name="context"> The context object provided during the execution. </param>
-    /// <param name="trig   "> The trigger currently executed in the trigger block. </param>
+    /// <param name="trigger"> The trigger currently executed in the trigger block. </param>
     public delegate bool TriggerHandler(IContext context, Trigger trigger);
 }

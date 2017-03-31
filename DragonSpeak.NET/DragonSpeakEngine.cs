@@ -5,8 +5,8 @@ using System.Linq;
 namespace DragonSpeak.NET
 {
     using Lexical;
+    using Delegates;
     using Enums;
-    using DragonSpeak.NET.Delegates;
 
     public class DragonSpeakEngine
     {

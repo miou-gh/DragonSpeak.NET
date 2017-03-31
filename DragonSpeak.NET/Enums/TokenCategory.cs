@@ -14,12 +14,12 @@
         Condition = 1,
         /// <summary>
         /// A trigger defined with a 3
-        /// <para>Example: (3:1) at position (#,#) on the map,</para>
+        /// <para>Example: (3:1) at position (#,#) on the map, </para>
         /// </summary>
         Area = 3,
         /// <summary>
         /// A trigger defined with a 4
-        /// <para>Example: (4:1) only where there are trees,</para>
+        /// <para>Example: (4:1) only where there are trees, </para>
         /// </summary>
         Filter = 4,
         /// <summary>

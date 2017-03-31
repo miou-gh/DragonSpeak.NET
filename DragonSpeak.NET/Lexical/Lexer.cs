@@ -6,7 +6,6 @@ namespace DragonSpeak.NET.Lexical
     using Interfaces;
     using Enums;
     using Error;
-    using System.Linq;
 
     internal class Lexer : ILexer
     {
@@ -25,19 +24,17 @@ namespace DragonSpeak.NET.Lexical
             var currentColumn = 0;
 
             while (currentIndex < pageSource.Length) {
-                var foundPattern = false;
+                Token mToken = null;
+                TokenDefinition mDefinition = null;
 
                 foreach (var definition in this.TokenDefinitions) {
                     var match = definition.Pattern.Match(pageSource, currentIndex);
 
                     if (match.Success && (match.Index - currentIndex) == 0) {
-                        foundPattern = true;
-                        
-                        if (!definition.Ignored) {
-                            yield return new Token(definition.Type, match.Value, new TokenPosition(currentIndex, currentLine, currentColumn));
-                        }
-
                         var terminator = TerminationPattern.Match(match.Value);
+
+                        mToken = new Token(definition.Type, match.Value, new TokenPosition(currentIndex, currentLine, currentColumn));
+                        mDefinition = definition;
 
                         currentIndex += match.Length;
                         currentLine += terminator.Success ? 1 : 0;
@@ -47,8 +44,12 @@ namespace DragonSpeak.NET.Lexical
                     }
                 }
 
-                if (!foundPattern) {
+                if (mToken == null && mDefinition == null) {
                     throw new DragonSpeakException($"Unrecognized symbol '{pageSource[currentIndex]}' at index {currentIndex} (line {currentLine}, column {currentColumn}).");
+                }
+
+                if (!mDefinition.Ignored) {
+                    yield return mToken;
                 }
             }
 

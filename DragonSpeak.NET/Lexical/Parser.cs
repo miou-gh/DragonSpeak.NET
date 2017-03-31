@@ -42,10 +42,9 @@ namespace DragonSpeak.NET.Lexical
                                 previousTrigger = currentTrigger;
                             }
 
-                            var tokenPatternMatch = triggerTokenPattern.Pattern.Match(token.Value);
-
-                            var category = (TriggerCategory)int.Parse(tokenPatternMatch.Groups[1].Value);
-                            var id = int.Parse(tokenPatternMatch.Groups[2].Value);
+                            var pattern = triggerTokenPattern.Pattern.Match(token.Value);
+                            var category = (TriggerCategory)int.Parse(pattern.Groups[1].Value);
+                            var id = int.Parse(pattern.Groups[2].Value);
 
                             currentTrigger = new Trigger(category, id) { Position = token.Position };
                             break;
@@ -57,6 +56,7 @@ namespace DragonSpeak.NET.Lexical
                         case TokenType.String:
                             currentTrigger.Contents.Add(token.Value.Substring(1, token.Value.Length - 2));
                             break;
+
                         case TokenType.Number:
                             currentTrigger.Contents.Add(double.Parse(token.Value, NumberStyles.AllowDecimalPoint));
                             break;
