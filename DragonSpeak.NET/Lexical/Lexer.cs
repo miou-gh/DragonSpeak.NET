@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DragonSpeak.NET.Lexical
 {
@@ -24,32 +25,23 @@ namespace DragonSpeak.NET.Lexical
             var currentColumn = 0;
 
             while (currentIndex < pageSource.Length) {
-                Token mToken = null;
-                TokenDefinition mDefinition = null;
+                var token = (from definition in this.TokenDefinitions
+                             let match = definition.Pattern.Match(pageSource, currentIndex)
+                             where match.Success && (match.Index - currentIndex) == 0
+                             select new { definition, match }).FirstOrDefault();
 
-                foreach (var definition in this.TokenDefinitions) {
-                    var match = definition.Pattern.Match(pageSource, currentIndex);
+                var terminator = TerminationPattern.Match(token.match.Value);
 
-                    if (match.Success && (match.Index - currentIndex) == 0) {
-                        var terminator = TerminationPattern.Match(match.Value);
+                currentIndex += token.match.Length;
+                currentLine += terminator.Success ? 1 : 0;
+                currentColumn = terminator.Success ? token.match.Value.Length - (terminator.Index + terminator.Length) : currentColumn + token.match.Length;
 
-                        mToken = new Token(definition.Type, match.Value, new TokenPosition(currentIndex, currentLine, currentColumn));
-                        mDefinition = definition;
-
-                        currentIndex += match.Length;
-                        currentLine += terminator.Success ? 1 : 0;
-                        currentColumn = terminator.Success ? match.Value.Length - (terminator.Index + terminator.Length) : currentColumn + match.Length;
-
-                        break;
-                    }
-                }
-
-                if (mToken == null && mDefinition == null) {
+                if (token == null || token.definition == null) {
                     throw new DragonSpeakException($"Unrecognized symbol '{pageSource[currentIndex]}' at index {currentIndex} (line {currentLine}, column {currentColumn}).");
                 }
 
-                if (!mDefinition.Ignored) {
-                    yield return mToken;
+                if (!token.definition.Ignored) {
+                    yield return new Token(token.definition.Type, token.match.Value, new TokenPosition(currentIndex, currentLine, currentColumn));
                 }
             }
 

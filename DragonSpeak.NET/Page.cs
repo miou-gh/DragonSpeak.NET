@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace DragonSpeak.NET
 {
-    using Lexical;
     using Delegates;
     using Error;
+    using Lexical;
 
     public class Page
     {
@@ -17,6 +17,10 @@ namespace DragonSpeak.NET
 
         private CauseTriggerDiscoveryHandler OnCauseTriggerDiscovered { get; set; }
 
+        /// <summary> A page contains triggers which can be both executed and handled respectively. </summary>
+        /// <param name="causeDiscoveryHandler">
+        /// Executed whenever a <see cref="TriggerCategory.Cause"/> trigger is found during parsing.
+        /// </param>
         public Page(DragonSpeakEngine engine, CauseTriggerDiscoveryHandler causeDiscoveryHandler)
         {
             this.Engine = engine;
@@ -73,6 +77,7 @@ namespace DragonSpeak.NET
                         this.TriggerBlocks.Add(triggerBlock);
                         this.OnCauseTriggerDiscovered?.Invoke(this, initialTrigger);
                         break;
+
                     default:
                         throw new DragonSpeakException(
                          string.Concat("A paragraph may only start with a 'cause' trigger.\n",
@@ -88,8 +93,8 @@ namespace DragonSpeak.NET
         {
             var causeTrigger = triggerBlock[0];
 
-            // invoke the beginning cause trigger 
-            // and check if the options allow ignoring unhandled cause triggers.
+            // invoke the beginning cause trigger and check if the options allow ignoring unhandled
+            // cause triggers.
             if (this.Handlers.ContainsKey(causeTrigger)) {
                 if (!this.Handlers[causeTrigger](context, causeTrigger))
                     return;
@@ -145,6 +150,7 @@ namespace DragonSpeak.NET
 
                         currentTrigger.Effects.Add(currentTrigger);
                         break;
+
                     default:
                         throw new DragonSpeakException($"There is no such trigger category '{currentTrigger.Category}'.");
                 }
