@@ -16,7 +16,9 @@ namespace DragonSpeak.NET
         public DragonSpeakOptions Options { get; private set; }
         public List<Page> Pages { get; private set; }
 
-        /// <remarks>If options is not specified, the default configuration is used.</remarks>
+        /// <summary>
+        /// <param name="options"/> The default configuration is used if not specified. </param>
+        /// </summary>
         public DragonSpeakEngine(DragonSpeakOptions options = null)
         {
             this.Options = options ?? new DragonSpeakOptions();

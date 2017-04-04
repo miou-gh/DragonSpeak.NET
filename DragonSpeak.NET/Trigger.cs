@@ -20,10 +20,10 @@ namespace DragonSpeak.NET
         /// <summary> The index in the <see cref="Category"/> where this trigger resides. </summary>
         public int Id { get; set; } = -1;
 
-        /// <summary> A friendly description of the trigger. </summary>
+        /// <summary> An optional friendly description of the trigger. </summary>
         public string Description { get; set; }
 
-        /// <summary> The initial trigger executed. </summary>
+        /// <summary> The initial trigger executed in the paragraph. </summary>
         public Trigger Cause { get; set; }
 
         /// <summary> A list of all the previous conditions met. </summary>
